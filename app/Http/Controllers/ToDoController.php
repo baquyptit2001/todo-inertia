@@ -42,6 +42,10 @@ class ToDoController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
         $todo = new ToDo();
         $todo->title = $request->title;
         $todo->description = $request->description;
@@ -80,6 +84,10 @@ class ToDoController extends Controller
      */
     public function update(Request $request, ToDo $toDo)
     {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
         $toDo = ToDo::find($request->id);
         $toDo->title = $request->title;
         $toDo->description = $request->description;
@@ -97,6 +105,14 @@ class ToDoController extends Controller
     {
         $toDo = ToDo::find($id);
         $toDo->delete();
+        return Redirect::route('todos.index');
+    }
+
+    public function check($id)
+    {
+        $toDo = ToDo::find($id);
+        $toDo->completed = !$toDo->completed;
+        $toDo->save();
         return Redirect::route('todos.index');
     }
 }

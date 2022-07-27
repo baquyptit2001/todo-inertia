@@ -15,3 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::resource('todos', \App\Http\Controllers\ToDoController::class);
+
+Route::redirect('/', '/todos');
+
+Route::put('/todos/check/{id}', [\App\Http\Controllers\ToDoController::class, 'check'])->name('todos.check');
